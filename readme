@@ -1,0 +1,99 @@
+# 🤖 FR3 Robot Data Collection - Quick Start (Windows)
+
+Welcome! This package contains the control scripts and the robot SDK required to run the grasping data collection.
+
+## 📦 Package Contents
+Ensure you have extracted the entire folder. The structure should look like this:
+* `main.py` (Run this)
+* `camera.py` & `control.py` (Modules)
+* `fairino/` (The Robot SDK folder - **Do not move or rename**)
+* `README.md`
+
+## ⚙️ Environment Setup
+
+This project is lightweight. You only need to install **OpenCV**.
+
+### Option A: Using Standard Python (Recommended)
+1.  Open **Command Prompt (cmd)** or **PowerShell** in this folder.
+2.  Create a virtual environment:
+    ```powershell
+    python -m venv venv
+    ```
+3.  Activate the environment:
+    * **Command Prompt:** `venv\Scripts\activate`
+    * **PowerShell:** `venv\Scripts\Activate.ps1`
+    *(Note: If PowerShell says scripts are disabled, run `Set-ExecutionPolicy RemoteSigned -Scope Process` first)*
+4.  Install the dependency:
+    ```bash
+    pip install opencv-python
+    ```
+
+### Option B: Using Conda
+If you prefer Anaconda/Miniconda:
+```bash
+conda create -n robot_env python=3.9
+conda activate robot_env
+pip install opencv-python
+____________________________________________________
+🔌 Network Configuration (Important!)
+The robot arm has a static IP: 192.168.58.2.
+To communicate, you must configure your Windows Ethernet adapter:
+
+Go to Settings > Network & Internet > Ethernet.
+
+Find your Ethernet adapter connected to the robot -> Click Edit (IP assignment).
+
+Select Manual -> Toggle IPv4 On.
+
+Enter these details:
+
+IP Address: 192.168.58.10 (Any number except .2)
+
+Subnet Mask: 255.255.255.0
+
+Gateway: (Leave blank)
+
+Save.
+
+🚀 How to Run
+Check Connections:
+
+✅ Robot Emergency Stop is released (Blue light).
+
+✅ USB Camera is plugged in.
+
+✅ Ethernet is connected.
+
+Start the Script:
+(Make sure your virtual environment is activated)
+
+Bash
+
+python main.py
+📋 Operation Logic
+The script runs 10 automatic trials:
+
+Reset: Robot moves to the starting pose.
+
+Wait: A 5-second countdown appears. Place the object now.
+
+Action: The robot automatically grasps and lifts.
+
+Save: Data is saved to the data/ folder automatically.
+
+📂 Data Output
+Check the data/ folder for results:
+
+Trial_X_..._Video.mp4: Recording of the grasp.
+
+Trial_X_..._Robot.csv: Robot coordinates (XYZ) and Gripper status.
+
+❓ Troubleshooting
+ModuleNotFoundError: No module named 'fairino':
+Make sure the fairino folder is in the same directory as main.py.
+
+[Camera] Failed to open camera:
+Unplug and replug the USB camera. If you have a laptop webcam, try changing camera_id=0 to camera_id=1 in camera.py.
+
+PowerShell "UnauthorizedAccess":
+Use Command Prompt (cmd) instead, or type Set-ExecutionPolicy RemoteSigned -Scope Process in PowerShell.
